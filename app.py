@@ -1,11 +1,13 @@
-from flask import Flask, request
-
+from flask import Flask, request ,jsonify
+from linebot import LineBotApi
+from linebot.models import TextSendMessage
+import time
 app = Flask(__name__)
-
 
 @app.route("/")
 def index():
-    return "Hi, Crystal!"
+    return jsonify({"message":"Crystal!"})
+
 
 @app.route("/myapi", methods = ['POST'])
 def myapi():
@@ -19,6 +21,13 @@ def myapi():
         # member_ids_res = line_bot_api.get_group_member_ids()
         # line_bot_api.push_message(yourID, 
         #                   TextSendMessage(text=data['message']))
-        line_bot_api.broadcast(TextSendMessage(text=data['message']))
+        
+        line_bot_api.broadcast(TextSendMessage(text=data['message']))     
         return {"message": "success"}
     return {"message": "fail"}
+
+
+# import os
+# if __name__ == "__main__":
+#     port = int(os.environ.get('PORT', 5000))
+#     app.run(host='0.0.0.0', port=port)
